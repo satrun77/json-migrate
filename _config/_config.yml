@@ -1,0 +1,7 @@
+---
+Name: json-import
+---
+
+SilverStripe\Assets\File:
+  db:
+    Checksum: Varchar(255)

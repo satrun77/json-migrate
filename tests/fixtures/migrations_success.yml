@@ -1,0 +1,6 @@
+JsonMigrations:
+  - file: "/Users/mo/Sites/json-import/tests/_fixtures/sample.json"
+    class: "SilverStripe\Assets\File"
+    folder: "ImportedImages"
+    fieldMap:
+      Title: "title"

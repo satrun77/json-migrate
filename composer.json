@@ -1,0 +1,69 @@
+{
+    "name": "silverstripe/silverstripe-json-migrate",
+    "description": "A SilverStripe module to assist with migrating data stored in JSON fields.",
+    "type": "silverstripe-vendormodule",
+    "homepage": "https://github.com/satrun77/silverstripe-json-migrate",
+    "keywords": [
+        "silverstripe",
+        "migration",
+        "json",
+        "data",
+        "module"
+    ],
+    "license": "BSD-3-Clause",
+    "support": {
+        "issues": "https://github.com/satrun77/silverstripe-json-migrate/issues"
+    },
+    "require": {
+        "php": "^8.3",
+        "silverstripe/framework": "^6",
+        "halaxa/json-machine": "^1.2"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3",
+        "slevomat/coding-standard": "^8",
+        "php-parallel-lint/php-parallel-lint": "^1",
+        "phpcompatibility/php-compatibility": "^9.3",
+        "phpunit/phpunit": "^11.5",
+        "silverstripe/taxonomy": "^4.0"
+    },
+    "extra": {
+        "project-files-installed": [
+            "behat.yml",
+            "phpcs.xml.dist",
+            "phpunit.xml.dist"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "Silverstripe\\JsonMigrate\\": "src",
+            "Silverstripe\\JsonMigrate\\Tests\\": "tests"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "silverstripe-standards": [
+            "@php-lint",
+            "@phpcs"
+        ],
+        "test": [
+            "@test-phpunit"
+        ],
+        "test-phpunit": "phpunit -d memory_limit=512M -d flush=1",
+        "test-phpunit-with-coverage": [
+            "phpunit --coverage-html coverage/php --coverage-clover coverage/php/clover.xml"
+        ],
+        "php-lint": "parallel-lint src tests",
+        "phpcs": "phpcs src tests --standard=phpcs.xml --extensions=php --encoding=utf-8",
+        "phpcbf": "phpcbf src tests --standard=phpcs.xml --extensions=php --encoding=utf-8",
+        "sniffer:php83": "phpcs -p ./src --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.3"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "silverstripe/vendor-plugin": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

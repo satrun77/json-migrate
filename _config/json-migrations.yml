@@ -1,0 +1,21 @@
+#App\Tasks\JsonMigrationTask:
+#  migrations:
+#    - jsonPath: "data/articles.jsonl"
+#      dataClass: "App\\DataObjects\\Article"
+#      imageFolder: "ImportedImages"
+#      fieldMap:
+#        title:
+#          type: "scalar"
+#          dest: "Title"
+#        publish_date:
+#          type: "scalar"
+#          dest: "PublishDate"
+#          transform: "date"
+#          input_format: "d/m/Y"
+#        category:
+#          type: "taxonomy"
+#          dest: "Categories"
+#          class: "App\\Taxonomies\\Category"
+#        images:
+#          type: "images"
+#          dest: "Gallery"

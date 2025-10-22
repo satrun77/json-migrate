@@ -1,0 +1,6 @@
+JsonMigrations:
+  - file: "/Users/mo/Sites/json-import/tests/_fixtures/bad.json"
+    class: "SilverStripe\Assets\File"
+    folder: "ImportedImages"
+    fieldMap: {}
+    stopOnError: true

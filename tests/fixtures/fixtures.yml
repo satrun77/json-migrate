@@ -1,0 +1,10 @@
+SilverStripe\Taxonomy\TaxonomyTerm:
+  category1:
+    Title: "News"
+  category2:
+    Title: "Events"
+
+Silverstripe\JsonMigrate\Tests\TestArticle:
+  article1:
+    Title: "Existing Article"
+    PublishDate: "2025-01-01 12:00:00"
