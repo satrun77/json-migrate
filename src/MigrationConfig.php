@@ -10,16 +10,45 @@ namespace Silverstripe\JsonMigrate;
  */
 class MigrationConfig
 {
-    public ?string $file;
-    public ?string $class;
-    public array $fieldMap;
-    public string $folder;
-    public int $batchSize;
-    public bool $resume;
-    public bool $stopOnError;
+    /**
+     * @var string|null The absolute path to the JSON/JSONL file.
+     */
+    private ?string $file;
 
     /**
-     * @param array<string,mixed> $config
+     * @var string|null The FQCN of the DataObject to import into.
+     */
+    private ?string $class;
+
+    /**
+     * @var array The mapping of JSON fields to DataObject properties.
+     */
+    private array $fieldMap;
+
+    /**
+     * @var string The folder to store imported images in.
+     */
+    private string $folder;
+
+    /**
+     * @var int The number of records to process in each batch.
+     */
+    private int $batchSize;
+
+    /**
+     * @var bool If true, the import will attempt to resume from the last checkpoint.
+     */
+    private bool $resume;
+
+    /**
+     * @var bool If true, the import will stop on the first error.
+     */
+    private bool $stopOnError;
+
+    /**
+     * Constructor.
+     *
+     * @param array<string,mixed> $config The configuration array for a single migration.
      */
     public function __construct(array $config)
     {
@@ -34,9 +63,67 @@ class MigrationConfig
 
     /**
      * Check if the essential migration parameters are present.
+     *
+     * @return bool True if the configuration is valid.
      */
     public function isValid(): bool
     {
-        return !empty($this->file) && !empty($this->class) && !empty($this->fieldMap);
+        return !$this->file && !$this->class && !count($this->fieldMap);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFile(): ?string
+    {
+        return $this->file;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getClass(): ?string
+    {
+        return $this->class;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFieldMap(): array
+    {
+        return $this->fieldMap;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFolder(): string
+    {
+        return $this->folder;
+    }
+
+    /**
+     * @return int
+     */
+    public function getBatchSize(): int
+    {
+        return $this->batchSize;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getResume(): bool
+    {
+        return $this->resume;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getStopOnError(): bool
+    {
+        return $this->stopOnError;
     }
 }

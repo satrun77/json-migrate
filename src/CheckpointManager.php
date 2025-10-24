@@ -68,6 +68,7 @@ class CheckpointManager
         }
 
         $data = json_decode($content, true);
+
         // The last saved index was the last successfully processed record, so start at the next one.
         return ($data['last_index'] ?? -1) + 1;
     }

@@ -37,6 +37,20 @@ class Logger
             return;
         }
 
-        echo "DEBUG: {$message}\n" . PHP_EOL;
+        // Output the message to the console with a timestamp.
+        echo sprintf("[%s] DEBUG: %s\n", date('Y-m-d H:i:s'), $message) . PHP_EOL;
+    }
+
+    /**
+     * Enables or disables debug mode.
+     *
+     * @param bool $debug
+     * @return static
+     */
+    public function setDebug(bool $debug): static
+    {
+        $this->debug = $debug;
+
+        return $this;
     }
 }

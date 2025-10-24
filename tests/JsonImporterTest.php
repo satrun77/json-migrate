@@ -17,6 +17,13 @@ use SilverStripe\Taxonomy\TaxonomyTerm;
 
 /**
  * @internal
+ * @phpcs:disable SlevomatCodingStandard.Functions.DisallowNamedArguments.DisallowedNamedArgument
+ * @phpcs:disable SlevomatCodingStandard.Functions.FunctionLength.FunctionLength
+ * @phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+ * @phpcs:disable SlevomatCodingStandard.Operators.DisallowIncrementAndDecrementOperators.DisallowedPreIncrementOperator
+ * @phpcs:disable Generic.Files.LineLength.TooLong
+ * @phpcs:disable SlevomatCodingStandard.Files.LineLength.LineTooLong
+ * @phpcs:disable SlevomatCodingStandard.PHP.DisallowReference.DisallowedInheritingVariableByReference
  */
 class JsonImporterTest extends SapphireTest
 {

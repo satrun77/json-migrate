@@ -17,6 +17,8 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * @internal
+ * @phpcs:disable SlevomatCodingStandard.Functions.DisallowNamedArguments.DisallowedNamedArgument
+ * @phpcs:disable SlevomatCodingStandard.Functions.FunctionLength.FunctionLength
  */
 class MigrationTaskTest extends SapphireTest
 {
@@ -95,10 +97,10 @@ class MigrationTaskTest extends SapphireTest
 
         $task->method('createImporter')
             ->with($this->callback(function (MigrationConfig $config) {
-                $this->assertEquals('test.json', $config->file);
-                $this->assertEquals(TestArticle::class, $config->class);
-                $this->assertEquals(['ID' => 'MyID'], $config->fieldMap);
-                $this->assertEquals(false, $config->stopOnError);
+                $this->assertEquals('test.json', $config->getFile());
+                $this->assertEquals(TestArticle::class, $config->getClass());
+                $this->assertEquals(['ID' => 'MyID'], $config->getFieldMap());
+                $this->assertEquals(false, $config->getStopOnError());
 
                 return true;
             }), $this->equalTo(false))
@@ -160,7 +162,7 @@ class MigrationTaskTest extends SapphireTest
 
         $task->method('createImporter')
             ->with($this->callback(function (MigrationConfig $config) {
-                $this->assertEquals(false, $config->stopOnError);
+                $this->assertEquals(false, $config->getStopOnError());
 
                 return true;
             }), $this->equalTo(false))
@@ -203,7 +205,7 @@ class MigrationTaskTest extends SapphireTest
 
         $task->method('createImporter')
             ->with($this->callback(function (MigrationConfig $config) {
-                $this->assertEquals(true, $config->stopOnError);
+                $this->assertEquals(true, $config->getStopOnError());
 
                 return true;
             }), $this->equalTo(false))

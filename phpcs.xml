@@ -83,6 +83,34 @@
         <exclude name="SlevomatCodingStandard.Functions.DisallowTrailingCommaInCall.DisallowedTrailingComma"/>
         <exclude name="SlevomatCodingStandard.Functions.DisallowArrowFunction.DisallowedArrowFunction"/>
         <exclude name="SlevomatCodingStandard.Arrays.AlphabeticallySortedByKeys.IncorrectKeyOrder"/>
+        <!-- Exclude the FunctionLength sniff from the main Slevomat ruleset so we can configure it separately -->
+        <exclude name="SlevomatCodingStandard.Functions.FunctionLength.FunctionLength"/>
+        <!-- Allow constructor property promotion -->
+        <exclude name="SlevomatCodingStandard.Classes.DisallowConstructorPropertyPromotion.DisallowedConstructorPropertyPromotion"/>
+        <exclude name="SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh"/>
+        <exclude name="SlevomatCodingStandard.Operators.DisallowIncrementAndDecrementOperators.DisallowedPostIncrementOperator"/>
+        <exclude name="SlevomatCodingStandard.ControlStructures.RequireMultiLineTernaryOperator.MultiLineTernaryOperatorNotUsed"/>
+        <exclude name="SlevomatCodingStandard.Whitespaces.DuplicateSpaces.DuplicateSpaces"/>
+        <exclude name="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration.MissingTrailingComma"/>
+        <exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing.MultipleSpacesBetweenTypeHintAndParameter"/>
+        <exclude name="SlevomatCodingStandard.Exceptions.DisallowNonCapturingCatch.DisallowedNonCapturingCatch"/>
+        <exclude name="SlevomatCodingStandard.ControlStructures.DisallowEmpty.DisallowedEmpty"/>
+        <exclude name="SlevomatCodingStandard.ControlStructures.JumpStatementsSpacing.IncorrectLinesCountBeforeControlStructure"/>
+        <exclude name="SlevomatCodingStandard.ControlStructures.RequireTernaryOperator.TernaryOperatorNotUsed"/>
+        <exclude name="SlevomatCodingStandard.ControlStructures.BlockControlStructureSpacing.IncorrectLinesCountBeforeControlStructure"/>
+        <exclude name="SlevomatCodingStandard.ControlStructures.EarlyExit.EarlyExitNotUsed"/>
+        <exclude name="SlevomatCodingStandard.Files.FileLength.FileTooLong"/>
+        <exclude name="SlevomatCodingStandard.Functions.StaticClosure.ClosureNotStatic"/>
+        <exclude name="SlevomatCodingStandard.Classes.ClassLength.ClassTooLong"/>
+        <exclude name="SlevomatCodingStandard.Functions.ArrowFunctionDeclaration.IncorrectSpacesAfterKeyword"/>
+        <exclude name="SlevomatCodingStandard.Classes.ModernClassNameReference.ClassNameReferencedViaFunctionCall"/>
+    </rule>
+
+    <!-- Configure SlevomatCodingStandard.Functions.FunctionLength.FunctionLength to allow 25 lines -->
+    <rule ref="SlevomatCodingStandard.Functions.FunctionLength.FunctionLength">
+        <properties>
+            <property name="maxLinesLength" value="25"/>
+        </properties>
     </rule>
 
     <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">

@@ -19,12 +19,25 @@ use Throwable;
  */
 class MigrationTask extends BuildTask
 {
+    /**
+     * @var string The name of the command to be used in the CLI.
+     */
     protected static string $commandName = 'json-migrate';
+
+    /**
+     * @var string The title of the BuildTask.
+     */
     protected string $title = 'JSON Migration Task';
+
+    /**
+     * @var string The description of the BuildTask.
+     */
     protected static string $description = 'Run JSON/JSONL migrations from YAML config';
 
     /**
-     * @return array<int,InputOption>
+     * Defines the command-line options for the task.
+     *
+     * @return array<int,InputOption> An array of InputOption objects.
      */
     public function getOptions(): array
     {
@@ -40,10 +53,17 @@ class MigrationTask extends BuildTask
         ];
     }
 
+    /**
+     * Executes the migration task.
+     *
+     * @param InputInterface $input The command-line input.
+     * @param PolyOutput $output The output to write messages to.
+     * @return int The exit code of the command.
+     */
     public function execute(InputInterface $input, PolyOutput $output): int
     {
         $configPath = $input->getOption('config');
-        $debug = (bool) $input->getOption('debug');
+        $debug = (bool)$input->getOption('debug');
 
         if (!file_exists($configPath)) {
             $output->writeln("<error>❌ Config file not found: {$configPath}</error>");
@@ -54,13 +74,14 @@ class MigrationTask extends BuildTask
         $config = Yaml::parseFile($configPath);
         $migrations = $config['JsonMigrations'] ?? [];
 
-        if (empty($migrations)) {
+        if (!count($migrations)) {
             $output->writeln("<comment>⚠️ No migrations defined in {$configPath}</comment>");
 
             return Command::SUCCESS;
         }
 
         foreach ($migrations as $index => $migration) {
+            // If a single migration fails and stopOnError is true, this will return false.
             if (!$this->runSingleMigration($migration, $index, $debug, $output)) {
                 return Command::FAILURE;
             }
@@ -75,54 +96,65 @@ class MigrationTask extends BuildTask
      * Factory method for creating an importer instance.
      *
      * This is separated out to make testing easier (mocking or subclassing).
+     *
+     * @param MigrationConfig $config The migration configuration object.
+     * @param bool $debug Whether to enable debug mode on the importer.
+     * @return JsonImporter An instance of the JsonImporter.
      */
     protected function createImporter(MigrationConfig $config, bool $debug): JsonImporter
     {
         return new JsonImporter(
-            $config->file,
-            $config->class,
-            $config->fieldMap,
-            $config->folder,
-            $config->batchSize,
+            $config->getFile(),
+            $config->getClass(),
+            $config->getFieldMap(),
+            $config->getFolder(),
+            $config->getBatchSize(),
             $debug,
-            $config->stopOnError,
+            $config->getStopOnError(),
         );
     }
 
     /**
-     * @param array<string,mixed> $migrationData
+     * Runs a single migration based on the provided configuration.
+     *
+     * @param array<string,mixed> $migrationData The configuration for a single migration.
+     * @param int $index The index of the migration in the config file.
+     * @param bool $debug Whether to enable debug output.
+     * @param PolyOutput $output The output to write messages to.
+     * @return bool True on success or non-blocking failure, false on blocking failure.
      */
     private function runSingleMigration(array $migrationData, int $index, bool $debug, PolyOutput $output): bool
     {
         $config = new MigrationConfig($migrationData);
-        $className = $config->class ?? 'Unknown';
+        $className = $config->getClass() ?? 'Unknown';
 
         try {
             if (!$config->isValid()) {
                 $output->writeln("<error>❌ Migration #{$index} missing file, class, or fieldMap.</error>");
 
-                return true;
+                return true; // Continue to next migration
             }
 
-            $output->writeln("\n🚀 <info>Starting migration for {$config->class}</info>");
-            $output->writeln("📂 File: {$config->file}");
-            $output->writeln("🧾 Batch Size: {$config->batchSize} | Resume: " . ($config->resume ? 'Yes' : 'No'));
+            $output->writeln("\n🚀 <info>Starting migration for {$config->getClass()}</info>");
+            $output->writeln("📂 File: {$config->getFile()}");
+            $output->writeln(
+                "🧾 Batch Size: {$config->getBatchSize()} | Resume: " . ($config->getResume() ? 'Yes' : 'No'),
+            );
 
             $importer = $this->createImporter($config, $debug);
+            $importer->process($config->getResume());
 
-            $importer->process($config->resume);
-
-            $output->writeln("✅ Completed migration for {$config->class}");
+            $output->writeln("✅ Completed migration for {$config->getClass()}");
         } catch (Throwable $e) {
             $output->writeln("<error>💥 Error migrating {$className}: {$e->getMessage()}</error>");
 
-            if ($config->stopOnError) {
+            if ($config->getStopOnError()) {
                 $output->writeln('<comment>⏹ Stopping due to stopOnError flag.</comment>');
 
-                return false;
+                return false; // Stop all migrations
             }
         }
 
-        return true;
+        return true; // Continue to next migration
     }
 }

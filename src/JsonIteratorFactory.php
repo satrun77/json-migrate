@@ -52,6 +52,7 @@ class JsonIteratorFactory
      *
      * @param string $path The path to the JSONL file.
      * @return Generator<int,array<string,mixed>> A generator that yields records.
+     * @throws RuntimeException If the file cannot be opened or a line contains invalid JSON.
      */
     private function createJsonlIterator(string $path): Generator
     {
